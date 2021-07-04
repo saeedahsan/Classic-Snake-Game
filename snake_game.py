@@ -57,6 +57,15 @@ class MainFrame(tk.Frame):
         self.canvas.create_line(3, 3, 300, 3)
         self.canvas.create_line(300, 3, 300, 300)
         self.canvas.create_line(3, 300, 300, 300)
+        self.score = tk.StringVar()
+        self.score.set(str(self.size))
+        self.score_mess = tk.Label(self, text='Score:')
+        self.score_mess.config(font=("Courier", 20))
+        self.score_mess.pack()
+    
+        self.score_label = tk.Label(self, text=self.score.get())
+        self.score_label.config(font=("Courier", 20))
+        self.score_label.pack()        
         self.move = 1
         self.movement()
         
@@ -66,18 +75,19 @@ class MainFrame(tk.Frame):
         # This moves the rectangle to x, y coordinates
         #for i in range(self.size):
             #self.canvas.move(self.snake[i], self.x, self.y)
+              
         if (self.lead_x <= 3 or self.lead_y <= 3 or self.lead_x + 20 >= 300 or self.lead_y + 20 >= 300):
             self.canvas.delete('all')
             
-            score = tk.StringVar()
-            score.set(str(self.size))
+            self.score_mess.pack_forget()
             self.score_mess = tk.Label(self, text='Your score was:')
             self.score_mess.config(font=("Courier", 20))
             self.score_mess.pack()
             
-            self.score_label = tk.Label(self, text=score.get())
+            self.score_label.pack_forget()
+            self.score_label = tk.Label(self, text=self.score.get())
             self.score_label.config(font=("Courier", 20))
-            self.score_label.pack()
+            self.score_label.pack()            
             
             self.play_again = tk.Button(self, text='Play Again?')
             self.play_again['command'] = self.play_game
@@ -90,13 +100,14 @@ class MainFrame(tk.Frame):
         if (self.move == 1):
             if ((self.prev_x == self.x * (-1) and self.x != 0 or self.prev_y == self.y * (-1) and self.y != 0) and self.size > 1):
                 self.canvas.delete('all')
-                score = tk.StringVar()
-                score.set(str(self.size))
+                
+                self.score_mess.pack_forget()
                 self.score_mess = tk.Label(self, text='Your score was:')
                 self.score_mess.config(font=("Courier", 20))
                 self.score_mess.pack()
                 
-                self.score_label = tk.Label(self, text=score.get())
+                self.score_label.pack_forget()
+                self.score_label = tk.Label(self, text=self.score.get())
                 self.score_label.config(font=("Courier", 20))
                 self.score_label.pack()
                 
@@ -110,13 +121,14 @@ class MainFrame(tk.Frame):
                 coord = self.canvas.coords(self.snake[i])
                 if ((coord[0] <= self.lead_x <= coord[0] + 10 or self.lead_x <= coord[0] <= self.lead_x + 10) and (coord[1] <= self.lead_y <= coord[1] + 10 or self.lead_y <= coord[1] <= self.lead_y + 10)):
                     self.canvas.delete('all')
-                    score = tk.StringVar()
-                    score.set(str(self.size))
+                    
+                    self.score_mess.pack_forget()
                     self.score_mess = tk.Label(self, text='Your score was:')
                     self.score_mess.config(font=("Courier", 20))
                     self.score_mess.pack()
                     
-                    self.score_label = tk.Label(self, text=score.get())
+                    self.score_label.pack_forget()
+                    self.score_label = tk.Label(self, text=self.score.get())
                     self.score_label.config(font=("Courier", 20))
                     self.score_label.pack()
                     
@@ -146,6 +158,11 @@ class MainFrame(tk.Frame):
                 self.food_x = random.randint(3, 280)
                 self.food_y = random.randint(3, 280)
                 self.food = self.canvas.create_oval(self.food_x, self.food_y, self.food_x + 20, self.food_y + 20, fill="#1f1")
+                self.score_label.pack_forget()
+                self.score.set(str(self.size))
+                self.score_label = tk.Label(self, text=self.score.get())
+                self.score_label.config(font=("Courier", 20))
+                self.score_label.pack()                
             
         #for i in range(self.size - 1):
             #new_coords = self.canvas.coords(self.snake[i])
